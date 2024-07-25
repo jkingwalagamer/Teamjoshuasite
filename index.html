@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joshua Team</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        h1 {
+            color: #4a90e2;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #a3e4d7;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #f7b7a3;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #f76c5e;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Joshua Team</h1>
+        <ul id="team-list">
+            <li>Joshua</li>
+            <li>Rommel</li>
+            <li>Imsaal</li>
+            <li>Ashley</li>
+        </ul>
+        <button onclick="addMember()">Add Member</button>
+    </div>
+    <script>
+        function addMember() {
+            const memberName = prompt("Enter the new member's name:");
+            if (memberName) {
+                const teamList = document.getElementById('team-list');
+                const newMember = document.createElement('li');
+                newMember.textContent = memberName;
+                teamList.appendChild(newMember);
+            }
+        }
+    </script>
+</body>
+</html>
