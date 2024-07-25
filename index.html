@@ -10,10 +10,12 @@
             background-color: #f8f8f8;
             color: #333;
             text-align: center;
+            margin: 0;
+            padding: 0;
         }
         .container {
             max-width: 600px;
-            margin: 0 auto;
+            margin: 20px auto;
             padding: 20px;
             background-color: #fff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -21,16 +23,27 @@
         }
         h1 {
             color: #4a90e2;
+            font-size: 24px;
+        }
+        p {
+            color: #555;
+            font-size: 16px;
+            padding: 0 20px;
         }
         ul {
             list-style-type: none;
             padding: 0;
+            margin: 0 20px;
         }
         li {
             background-color: #a3e4d7;
             margin: 10px 0;
             padding: 10px;
             border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            word-break: break-word;
         }
         button {
             background-color: #f7b7a3;
@@ -40,15 +53,44 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
+            margin: 10px 0;
         }
         button:hover {
             background-color: #f76c5e;
+        }
+        .remove-btn {
+            background-color: #ff6b6b;
+            margin-left: 10px;
+            padding: 5px 10px;
+        }
+        .remove-btn:hover {
+            background-color: #e74c3c;
+        }
+        @media (max-width: 600px) {
+            .container {
+                width: 90%;
+                padding: 10px;
+            }
+            h1 {
+                font-size: 20px;
+            }
+            p {
+                font-size: 14px;
+            }
+            button {
+                font-size: 14px;
+                padding: 8px 16px;
+            }
+            .remove-btn {
+                padding: 5px 10px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Joshua Team</h1>
+        <p>My team members are brave and strong and always help each other. If one member gets in a fight, all will help.</p>
         <ul id="team-list"></ul>
         <button onclick="addMember()">Add Member</button>
     </div>
@@ -63,16 +105,12 @@
             if (storedTeam) {
                 const team = JSON.parse(storedTeam);
                 team.forEach(member => {
-                    const listItem = document.createElement('li');
-                    listItem.textContent = member;
-                    teamList.appendChild(listItem);
+                    addListItem(member);
                 });
             } else {
                 const defaultTeam = ['Joshua', 'Rommel', 'Imsaal', 'Ashley'];
                 defaultTeam.forEach(member => {
-                    const listItem = document.createElement('li');
-                    listItem.textContent = member;
-                    teamList.appendChild(listItem);
+                    addListItem(member);
                 });
                 localStorage.setItem('team', JSON.stringify(defaultTeam));
             }
@@ -81,10 +119,7 @@
         function addMember() {
             const memberName = prompt("Enter the new member's name:");
             if (memberName) {
-                const teamList = document.getElementById('team-list');
-                const newMember = document.createElement('li');
-                newMember.textContent = memberName;
-                teamList.appendChild(newMember);
+                addListItem(memberName);
 
                 const storedTeam = localStorage.getItem('team');
                 const team = storedTeam ? JSON.parse(storedTeam) : [];
@@ -92,7 +127,34 @@
                 localStorage.setItem('team', JSON.stringify(team));
             }
         }
+
+        function addListItem(memberName) {
+            const teamList = document.getElementById('team-list');
+            const listItem = document.createElement('li');
+            listItem.textContent = memberName;
+
+            const removeButton = document.createElement('button');
+            removeButton.textContent = 'Remove';
+            removeButton.className = 'remove-btn';
+            removeButton.onclick = () => removeMember(memberName);
+
+            listItem.appendChild(removeButton);
+            teamList.appendChild(listItem);
+        }
+
+        function removeMember(memberName) {
+            const teamList = document.getElementById('team-list');
+            const storedTeam = localStorage.getItem('team');
+            let team = storedTeam ? JSON.parse(storedTeam) : [];
+
+            team = team.filter(member => member !== memberName);
+            localStorage.setItem('team', JSON.stringify(team));
+
+            teamList.innerHTML = '';
+            team.forEach(member => {
+                addListItem(member);
+            });
+        }
     </script>
 </body>
 </html>
-
