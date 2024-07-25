@@ -49,15 +49,35 @@
 <body>
     <div class="container">
         <h1>Joshua Team</h1>
-        <ul id="team-list">
-            <li>Joshua</li>
-            <li>Rommel</li>
-            <li>Imsaal</li>
-            <li>Ashley</li>
-        </ul>
+        <ul id="team-list"></ul>
         <button onclick="addMember()">Add Member</button>
     </div>
     <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadTeamList();
+        });
+
+        function loadTeamList() {
+            const teamList = document.getElementById('team-list');
+            const storedTeam = localStorage.getItem('team');
+            if (storedTeam) {
+                const team = JSON.parse(storedTeam);
+                team.forEach(member => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = member;
+                    teamList.appendChild(listItem);
+                });
+            } else {
+                const defaultTeam = ['Joshua', 'Rommel', 'Imsaal', 'Ashley'];
+                defaultTeam.forEach(member => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = member;
+                    teamList.appendChild(listItem);
+                });
+                localStorage.setItem('team', JSON.stringify(defaultTeam));
+            }
+        }
+
         function addMember() {
             const memberName = prompt("Enter the new member's name:");
             if (memberName) {
@@ -65,8 +85,14 @@
                 const newMember = document.createElement('li');
                 newMember.textContent = memberName;
                 teamList.appendChild(newMember);
+
+                const storedTeam = localStorage.getItem('team');
+                const team = storedTeam ? JSON.parse(storedTeam) : [];
+                team.push(memberName);
+                localStorage.setItem('team', JSON.stringify(team));
             }
         }
     </script>
 </body>
 </html>
+
